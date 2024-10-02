@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Link to your CSS if needed -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #e2ebf0, #b7d6f0);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        h1 {
+            color: #4CAF50;
+            margin-bottom: 20px;
+        }
+
+        #profile-info {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: left;
+            width: 300px;
+            margin-bottom: 20px;
+        }
+
+        .logout-btn {
+            background-color: #f44336;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        .logout-btn:hover {
+            background-color: #d32f2f;
+        }
+
+        .additional-content {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <h1>User Profile</h1>
+    <div id="profile-info"></div> <!-- This will display the profile information -->
+    <button class="logout-btn" onclick="logout()">Logout</button>
+
+    <div class="additional-content">
+        <h3>Welcome to your profile!</h3>
+        <p>Here you can view your information, manage your settings, and log out of your account.</p>
+        <p>Feel free to explore more features of our application!</p>
+    </div>
+
+    <script>
+        // Fetch user profile data
+        fetch('http://localhost:3000/profile', {
+            method: 'GET',
+            headers: {
+                'Authorization': localStorage.getItem('token') // Include the token
+            }
+        }).then(response => {
+            if (response.ok) {
+                return response.json();
+            } else {
+                throw new Error('Not authorized');
+            }
+        }).then(data => {
+            console.log(data);
+            // Display profile data on the page
+            document.getElementById('profile-info').innerHTML = `
+                <p><strong>Username:</strong> ${data.username}</p>
+                <p><strong>Email:</strong> ${data.email}</p>
+            `;
+        }).catch(error => {
+            console.error(error);
+            document.getElementById('profile-info').innerHTML = `<p>Error: ${error.message}</p>`;
+        });
+
+        // Logout function
+        function logout() {
+            localStorage.removeItem('token'); // Remove the token from localStorage
+            window.location.href = '/'; // Redirect to the homepage or login page
+        }
+    </script>
+</body>
+</html>
