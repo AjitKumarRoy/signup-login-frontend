@@ -6,7 +6,7 @@
 
 
 // Constants for API endpoints
-const API_BASE_URL = 'http://localhost:3000/auth';
+const API_BASE_URL = 'https://signup-login-backend-production.up.railway.app/auth';
 const LOGIN_URL = `${API_BASE_URL}/login`;
 const SIGNUP_URL = `${API_BASE_URL}/signup`;
 const FORGOT_PASSWORD_URL = `${API_BASE_URL}/forgot-password`;
